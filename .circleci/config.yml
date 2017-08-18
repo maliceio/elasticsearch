@@ -55,7 +55,7 @@ jobs:
             set -x
             docker run -d --name etest -p 9200:9200 -e cluster.name=testcluster -e discovery.type=single-node app; sleep 30;
             docker logs etest
-            curl --retry 10 --retry-delay 5 -v http://localhost:9200 | true
+            curl --help
             http localhost:9200 | jq .cluster_name
 
       # - deploy:
