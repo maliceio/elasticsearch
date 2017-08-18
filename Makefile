@@ -1,3 +1,5 @@
+.PHONY: build size tags test tar push run ssh stop circle
+
 REPO=maliceio/elasticsearch
 ORG=malice
 NAME=elasticsearch
@@ -25,14 +27,21 @@ test: ## Test docker image
 	http localhost:9200 | jq .cluster_name
 	docker rm -f esatest
 
-run: ## Run docker immage
-	docker run -d --name krun --link esrun:elasticsearch -p 5601:5601 $(ORG)/$(NAME):$(BUILD)
-
-ssh: ## SSH into docker image
-	@docker run --init -it --rm -v `pwd`:/home/elasticsearch --entrypoint=sh $(ORG)/$(NAME):$(VERSION)
-
 tar: ## Export tar of docker image
 	docker save $(ORG)/$(NAME):$(VERSION) -o $(NAME).tar
+
+push: build ## Push docker image to docker registry
+	@echo "===> Pushing $(ORG)/$(NAME):$(VERSION) to docker hub..."
+	@docker push $(ORG)/$(NAME):$(VERSION)
+
+run: stop ## Run docker container
+	@docker run --init -d --name $(NAME) -p 9200:9200 $(ORG)/$(NAME):$(VERSION)
+
+ssh: ## SSH into docker image
+	@docker run --init -it --rm --entrypoint=sh $(ORG)/$(NAME):$(VERSION)
+
+stop: ## Kill running malice-engine docker containers
+	@docker rm -f $(NAME) || true
 
 circle: ci-size ## Get docker image size from CircleCI
 	@sed -i.bu 's/docker%20image-.*-blue/docker%20image-$(shell cat .circleci/SIZE)-blue/' README.md
@@ -56,5 +65,3 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
-
-.PHONY: build size tags tar test run ssh circle push release

@@ -53,7 +53,9 @@ jobs:
           name: Run malware test
           command: |
             set -x
-            echo "make tests"
+            docker run -d --name etest -p 9200:9200 -e cluster.name=testcluster -e ES_JAVA_OPTS="-Xms1g -Xmx1g" app; sleep 10;
+            docker logs etest
+            http localhost:9200 | jq .cluster_name
 
       # - deploy:
       #     name: Push application Docker image
