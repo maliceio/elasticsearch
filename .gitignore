@@ -3,3 +3,4 @@ build
 *.bu
 
 .vagrant/
+.circleci/build_num

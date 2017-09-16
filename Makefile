@@ -9,6 +9,7 @@ LATEST ?=$(shell cat LATEST)
 all: build size test
 
 build: ## Build docker image
+	chmod +x $(BUILD)/elastic-entrypoint.sh $(BUILD)/docker-healthcheck $(BUILD)/config/logrotate
 	cd $(BUILD); docker build -t $(ORG)/$(NAME):$(BUILD) .
 
 size: build ## Get built image size
