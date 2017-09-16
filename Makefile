@@ -23,7 +23,7 @@ tags:
 	docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" $(ORG)/$(NAME)
 
 test: ## Test docker image
-	docker run -d --name esatest -p 9200:9200 -e cluster.name=testcluster $(REPO)/$(NAME):$(BUILD); sleep 10;
+	docker run -d --name esatest -p 9200:9200 -e cluster.name=testcluster $(ORG)/$(NAME):$(BUILD); sleep 10;
 	docker logs esatest
 	http localhost:9200 | jq .cluster_name
 	docker rm -f esatest
