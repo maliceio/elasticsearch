@@ -3,12 +3,27 @@
 REPO=maliceio/elasticsearch
 ORG=malice
 NAME=elasticsearch
+# build info
 BUILD ?=$(shell cat LATEST)
 LATEST ?=$(shell cat LATEST)
+VERSION=$(shell cat "$(BUILD)/Dockerfile" | grep '^ENV VERSION' | cut -d" " -f3)
+# tarball info
+DOWNLOAD_URL=https://artifacts.elastic.co/downloads/$(NAME)
+SHA_URL=$(DOWNLOAD_URL)/$(NAME)-$(VERSION).tar.gz.sha512
+TARBALL_SHA=$(shell curl -s "$(SHA_URL)")
+
 
 all: build size test
 
-build: ## Build docker image
+.PHONY: dockerfile
+dockerfile: ## Update Dockerfiles
+ifneq "$(BUILD)" "x-pack"
+	@echo "===> Getting $(NAME) tarball sha1 for version: $(VERSION)"
+	@echo " * TARBALL_SHA=$(TARBALL_SHA)"
+	sed -i.bu 's/TARBALL_SHA "[0-9a-f.]\{128\}"/TARBALL_SHA "$(TARBALL_SHA)"/' $(BUILD)/Dockerfile
+endif
+
+build: dockerfile ## Build docker image
 	chmod +x $(BUILD)/elastic-entrypoint.sh $(BUILD)/docker-healthcheck $(BUILD)/config/logrotate
 	cd $(BUILD); docker build -t $(ORG)/$(NAME):$(BUILD) .
 
