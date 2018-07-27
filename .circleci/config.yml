@@ -3,11 +3,11 @@ jobs:
   build:
     working_directory: /app
     docker:
-      - image: docker:18
+      - image: docker:18.06.0-ce
     steps:
       - checkout
       - setup_remote_docker:
-          version: 18
+          version: 18.06.0-ce
       - run:
           name: Install dependencies
           command: |
