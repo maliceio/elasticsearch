@@ -2,7 +2,7 @@
 
 # malice-elasticsearch
 
-[![CircleCI](https://circleci.com/gh/maliceio/elasticsearch.png?style=shield)](https://circleci.com/gh/maliceio/elasticsearch) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org) [![Docker Stars](https://img.shields.io/docker/stars/malice/elasticsearch.svg)](https://hub.docker.com/r/malice/elasticsearch/) [![Docker Pulls](https://img.shields.io/docker/pulls/malice/elasticsearch.svg)](https://hub.docker.com/r/malice/elasticsearch/) [![Docker Image](https://img.shields.io/badge/docker%20image-122MB-blue.svg)](https://hub.docker.com/r/malice/elasticsearch/)
+[![CircleCI](https://circleci.com/gh/maliceio/elasticsearch.png?style=shield)](https://circleci.com/gh/maliceio/elasticsearch) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org) [![Docker Stars](https://img.shields.io/docker/stars/malice/elasticsearch.svg)](https://hub.docker.com/r/malice/elasticsearch/) [![Docker Pulls](https://img.shields.io/docker/pulls/malice/elasticsearch.svg)](https://hub.docker.com/r/malice/elasticsearch/) [![Docker Image](https://img.shields.io/badge/docker%20image-127MB-blue.svg)](https://hub.docker.com/r/malice/elasticsearch/)
 
 Malice's Custom [Elasticsearch](https://www.elastic.co/products/elasticsearch) Docker Image
 
@@ -26,7 +26,8 @@ Malice's Custom [Elasticsearch](https://www.elastic.co/products/elasticsearch) D
 
 ```bash
 REPOSITORY               TAG                 SIZE
-malice/elasticsearch   latest              122MB
+malice/elasticsearch   latest              127MB
+malice/elasticsearch   6.4                 127MB
 malice/elasticsearch   6.3                 122MB
 malice/elasticsearch   6.0                 117MB
 malice/elasticsearch   5.6                 124MB

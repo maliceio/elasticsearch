@@ -2,13 +2,12 @@ REPO=maliceio/elasticsearch
 ORG=malice
 NAME=elasticsearch
 # build info
-BUILD ?=$(shell cat LATEST)
 LATEST ?=$(shell cat LATEST)
-
+BUILD ?=$(LATEST)
+BUILDS=$(LATEST) 6.3 6.0 5.6 geoip
 
 all: update build size test
 
-BUILDS=6.3 6.0 5.6 geoip
 .PHONY: update
 update:
 	$(foreach build,$(BUILDS),NAME=$(NAME) BUILD=$(build) $(MAKE) dockerfile;)
