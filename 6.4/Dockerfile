@@ -6,12 +6,12 @@ RUN apk add --no-cache openjdk8-jre su-exec
 
 ENV VERSION 6.4.0
 ENV DOWNLOAD_URL "https://artifacts.elastic.co/downloads/elasticsearch"
-ENV ES_TARBAL "${DOWNLOAD_URL}/elasticsearch-oss-${VERSION}.tar.gz"
-ENV ES_TARBALL_ASC "${DOWNLOAD_URL}/elasticsearch-oss-${VERSION}.tar.gz.asc"
-ENV EXPECTED_SHA_URL "${DOWNLOAD_URL}/elasticsearch-oss-${VERSION}.tar.gz.sha512"
-ENV ES_TARBALL_SHA "0197dcf24bdb81cbcfa492d899363528816143962abd1925a5092e8177c25e8ca490afe5868b41057b3cded296f59f38ed11ba0156a820b6c877c69a5888846c"
+ENV ES_TARBAL "${DOWNLOAD_URL}/elasticsearch-${VERSION}.tar.gz"
+ENV ES_TARBALL_ASC "${DOWNLOAD_URL}/elasticsearch-${VERSION}.tar.gz.asc"
+ENV EXPECTED_SHA_URL "${DOWNLOAD_URL}/elasticsearch-${VERSION}.tar.gz.sha512"
+ENV ES_TARBALL_SHA "6f465378a51c487f1f6a84a0843ac1038db60170ee8a5d96874a759f6dbbf2de9f7bcbbf55616f49f28f1098c82f2e585c917267d02b8b1f43627a1984b3da66"
 ENV GPG_KEY "46095ACC8548582C1A2699A9D27D666CD88E42B4"
-# https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-6.3.0.zip
+
 RUN apk add --no-cache bash
 RUN apk add --no-cache -t .build-deps wget ca-certificates gnupg openssl \
   && set -ex \
@@ -49,10 +49,11 @@ RUN apk add --no-cache -t .build-deps wget ca-certificates gnupg openssl \
   && rm -rf /tmp/* \
   && apk del --purge .build-deps
 
-COPY config/elastic /usr/share/elasticsearch/config
+COPY config/elasticsearch.yml /usr/share/elasticsearch/config/elasticsearch.yml
+COPY config/log4j2.properties /usr/share/elasticsearch/config/log4j2.properties
 COPY config/logrotate /etc/logrotate.d/elasticsearch
-COPY elastic-entrypoint.sh /
-COPY docker-healthcheck /usr/local/bin/
+COPY entrypoint.sh /
+COPY healthcheck /usr/local/bin/
 
 WORKDIR /usr/share/elasticsearch
 
@@ -62,7 +63,7 @@ ENV ES_TMPDIR /usr/share/elasticsearch/tmp
 VOLUME ["/usr/share/elasticsearch/data"]
 
 EXPOSE 9200 9300
-ENTRYPOINT ["/elastic-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["elasticsearch"]
 
 # HEALTHCHECK CMD ["docker-healthcheck"]
