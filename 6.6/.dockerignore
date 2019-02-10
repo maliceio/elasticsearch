@@ -1,0 +1,5 @@
+# Ignore .git folder
+.git*
+.gitignore
+
+hooks

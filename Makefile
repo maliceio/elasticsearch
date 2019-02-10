@@ -4,7 +4,7 @@ NAME=elasticsearch
 # build info
 LATEST ?=$(shell cat LATEST)
 BUILD ?=$(LATEST)
-BUILDS=$(LATEST) 6.3 6.0 5.6 geoip
+BUILDS=$(LATEST) 6.5 5.6
 
 all: update build size test
 
@@ -40,9 +40,9 @@ tags:
 
 .PHONY: test
 test: stop ## Test docker image
-	docker run -d --name $(NAME) -p 9200:9200 -e cluster.name=testcluster $(ORG)/$(NAME):$(BUILD); sleep 20;
+	docker run -d --name $(NAME) -e cluster.name=testcluster $(ORG)/$(NAME):$(BUILD); sleep 20;
 	docker logs $(NAME)
-	http localhost:9200 | jq .cluster_name
+	@docker run -it --rm --link $(NAME) --entrypoint=sh blacktop/httpie -c "http elasticsearch:9200 | jq .cluster_name"
 	docker rm -f $(NAME)
 
 .PHONY: tar
