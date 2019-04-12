@@ -27,6 +27,7 @@ Malice's Custom [Elasticsearch](https://www.elastic.co/products/elasticsearch) D
 ```bash
 REPOSITORY               TAG                 SIZE
 malice/elasticsearch   latest              126MB
+malice/elasticsearch   7.0                 126MB
 malice/elasticsearch   6.6                 126MB
 malice/elasticsearch   6.4                 127MB
 malice/elasticsearch   6.3                 122MB
