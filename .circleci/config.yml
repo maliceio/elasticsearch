@@ -48,7 +48,7 @@ jobs:
           name: Run elasticsearch
           command: |
             set -x
-            docker run -d --name es -p 9200:9200 -e cluster.name=testcluster -e discovery.type=single-node app; sleep 10;
+            docker run -d --name es -p 9200:9200 -e cluster.name=testcluster -e discovery.type=single-node app; sleep 20;
             docker logs es
       - run:
           name: Run test
